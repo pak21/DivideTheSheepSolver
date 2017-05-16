@@ -88,4 +88,36 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     after.islands(0).hungryWolves must be (0)
     after.islands(1).hungryWolves must be (3)
   }
+
+  it should "change hungry wolves to full when they land on sheep" in {
+    // Arrange
+    val island0 = Island(3, hungryWolves = 2)
+    val island1 = Island(3, 3)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).hungryWolves must be (0)
+    after.islands(1).sheep must be (1)
+    after.islands(1).hungryWolves must be (0)
+    after.islands(1).fullWolves must be (2)
+  }
+
+  it should "change hungry wolves to full when sheep land on them" in {
+    // Arrange
+    val island0 = Island(3, 2)
+    val island1 = Island(3, hungryWolves = 3)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).hungryWolves must be (0)
+    after.islands(1).sheep must be (0)
+    after.islands(1).hungryWolves must be (1)
+    after.islands(1).fullWolves must be (2)
+  }
 }
