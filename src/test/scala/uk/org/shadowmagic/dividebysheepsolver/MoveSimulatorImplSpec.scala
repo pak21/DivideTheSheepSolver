@@ -120,4 +120,64 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     after.islands(1).hungryWolves must be (1)
     after.islands(1).fullWolves must be (2)
   }
+
+  it should "not move full wolves" in {
+    // Arrange
+    val island0 = Island(3, fullWolves = 3)
+    val island1 = Island(3)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).fullWolves must be (3)
+    after.islands(1).fullWolves must be (0)
+  }
+
+  it should "discard sheep if full wolves take up space" in {
+    // Arrange
+    val island0 = Island(3, 3)
+    val island1 = Island(3, fullWolves = 1)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).sheep must be (0)
+    after.islands(1).sheep must be (2)
+    after.islands(1).fullWolves must be (1)
+  }
+
+  it should "discard hungry wolves if full wolves take up space" in {
+    // Arrange
+    val island0 = Island(3, hungryWolves = 3)
+    val island1 = Island(3, fullWolves = 1)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).hungryWolves must be (0)
+    after.islands(1).hungryWolves must be (2)
+    after.islands(1).fullWolves must be (1)
+  }
+
+  it should "add to full wolves when eating sheep" in {
+    // Arrange
+    val island0 = Island(3, 1)
+    val island1 = Island(3, hungryWolves = 1, fullWolves = 1)
+    val before = Level(Array(island0, island1), Seq.empty[Raft])
+
+    // Act
+    val after = moveSimulator.move(before, 0, 1)
+
+    // Assert
+    after.islands(0).sheep must be (0)
+    after.islands(1).sheep must be (0)
+    after.islands(1).hungryWolves must be (0)
+    after.islands(1).fullWolves must be (2)
+  }
 }
