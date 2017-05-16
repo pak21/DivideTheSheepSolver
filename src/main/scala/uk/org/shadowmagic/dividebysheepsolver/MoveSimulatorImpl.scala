@@ -13,8 +13,15 @@ class MoveSimulatorImpl extends MoveSimulator {
   }
 
   private def mergeIslands(source: Island, target: Island): Island = {
-    val newSheep = Math.min(source.sheep + target.sheep, target.spaces)
-    val newHungryWolves = Math.min(source.hungryWolves + target.hungryWolves, target.spaces)
-    Island(target.spaces, newSheep, 0, newHungryWolves)
+    val sheepBeforeEating = Math.min(source.sheep + target.sheep, target.spaces)
+    val hungryWolvesBeforeEating = Math.min(source.hungryWolves + target.hungryWolves, target.spaces)
+
+    val sheepEaten = Math.min(sheepBeforeEating, hungryWolvesBeforeEating)
+
+    val sheepAfterEating = sheepBeforeEating - sheepEaten
+    val hungryWolvesAfterEating = hungryWolvesBeforeEating - sheepEaten
+    val fullWolvesAfterEating = target.fullWolves + sheepEaten
+
+    Island(target.spaces, sheepAfterEating, 0, hungryWolvesAfterEating, fullWolvesAfterEating)
   }
 }
