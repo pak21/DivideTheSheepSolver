@@ -13,7 +13,19 @@ class MoveSimulatorImpl extends MoveSimulator {
   }
 
   override def moveToRaft(before: Level, from: Int): Level = {
-    before
+    val newIslands = before.islands.zipWithIndex.map { case (island, i) =>
+      i match {
+        case `from` => Island(island.spaces, fullWolves = island.fullWolves)
+        case _ => island
+      }
+    }
+
+    val sourceIsland = before.islands(from)
+    val targetRaft = before.rafts.head
+    val newHeadRaft = Raft(targetRaft.sheep - sourceIsland.sheep, targetRaft.wolves - sourceIsland.hungryWolves)
+    val newRafts = newHeadRaft +: before.rafts.drop(1)
+
+    Level(newIslands, newRafts)
   }
 
   private def mergeIslands(source: Island, target: Island): Island = {
