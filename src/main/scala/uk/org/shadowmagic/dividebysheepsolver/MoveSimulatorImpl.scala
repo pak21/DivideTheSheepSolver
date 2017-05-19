@@ -12,6 +12,10 @@ class MoveSimulatorImpl extends MoveSimulator {
     Level(newIslands, before.rafts)
   }
 
+  override def moveToRaft(before: Level, from: Int): Level = {
+    before
+  }
+
   private def mergeIslands(source: Island, target: Island): Island = {
     val availableSpace = target.spaces - target.fullWolves
 

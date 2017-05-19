@@ -180,4 +180,75 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     after.islands(1).hungryWolves must be (0)
     after.islands(1).fullWolves must be (2)
   }
+
+  it should "allow sheep to move to a raft" in {
+    // Arrange
+    val island = Island(3, 3)
+    val raft = Raft(3, 4)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.islands(0).sheep must be (0)
+    after.rafts(0).sheep must be (1)
+  }
+
+  it should "allow sheep to overload a raft" in {
+    // Arrange
+    val island = Island(3, 3)
+    val raft = Raft(3, 2)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.islands(0).sheep must be (0)
+    after.rafts.head.sheep must be (-1)
+  }
+
+  it should "allow hungry wolves to move to a raft" in {
+    // Arrange
+    val island = Island(3, hungryWolves = 3)
+    val raft = Raft(3, wolves = 4)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.islands(0).hungryWolves must be (0)
+    after.rafts.head.wolves must be (0)
+  }
+
+  it should "allow hungry wolves to overload a raft" in {
+    // Arrange
+    val island = Island(3, hungryWolves = 3)
+    val raft = Raft(3, wolves = 2)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.islands(0).hungryWolves must be (0)
+    after.rafts.head.wolves must be (-1)
+  }
+
+  it should "not move full wolves to a raft" in {
+    // Arrange
+    val island = Island(3, fullWolves = 3)
+    val raft = Raft(3, 3)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.islands(0).fullWolves must be (3)
+    after.rafts.head.sheep must be (3)
+    after.rafts.head.wolves must be (3)
+  }
 }
