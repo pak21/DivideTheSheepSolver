@@ -40,10 +40,23 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     failed must be (None)
   }
 
-  it should "return failed if a raft is overloaded" in {
+  it should "return failed if a raft is overloaded with sheep" in {
     // Arrange
     val island = Island(3, 3)
     val raft = Raft(-1)
+    val level = Level(Array(island), Seq(raft))
+
+    // Act
+    val failed = levelEvaluator.hasFailed(level)
+
+    // Assert
+    failed must be (LevelFailureReason.RaftOverloaded)
+  }
+
+  it should "return failed if a raft is overloaded with wolves" in {
+    // Arrange
+    val island = Island(3, 3)
+    val raft = Raft(wolves = -1)
     val level = Level(Array(island), Seq(raft))
 
     // Act
@@ -69,6 +82,19 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
   it should "return failed if there are not enough wolves left" in {
     // Arrange
     val island = Island(3, hungryWolves =  1)
+    val raft = Raft(wolves = 3)
+    val level = Level(Array(island), Seq(raft))
+
+    // Act
+    val failed = levelEvaluator.hasFailed(level)
+
+    // Assert
+    failed must be (LevelFailureReason.NotEnoughWolves)
+  }
+
+  it should "return failed if there are full wolves but not enough hungry wolves" in {
+    // Arrange
+    val island = Island(3, hungryWolves = 1, fullWolves =  3)
     val raft = Raft(wolves = 3)
     val level = Level(Array(island), Seq(raft))
 
