@@ -3,13 +3,13 @@ package uk.org.shadowmagic.dividebysheepsolver
 import org.scalatest.{FlatSpec, MustMatchers}
 
 class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
-  val moveSimulator = new MoveSimulatorImpl();
+  val moveSimulator = new MoveSimulatorImpl()
 
   "A move simulator" should "allow sheep to be moved" in {
     // Arrange
     val island0 = Island(3, 3)
     val island1 = Island(3)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -23,7 +23,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, 1)
     val island1 = Island(3, 1)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -37,7 +37,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, 3)
     val island1 = Island(3, 2)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -51,7 +51,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, hungryWolves = 3)
     val island1 = Island(3)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -65,7 +65,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, hungryWolves = 1)
     val island1 = Island(3, hungryWolves = 1)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -79,7 +79,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, hungryWolves = 3)
     val island1 = Island(3, hungryWolves = 2)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -93,7 +93,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, hungryWolves = 2)
     val island1 = Island(3, 3)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -109,7 +109,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, 2)
     val island1 = Island(3, hungryWolves = 3)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -125,7 +125,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, fullWolves = 3)
     val island1 = Island(3)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -139,7 +139,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, 3)
     val island1 = Island(3, fullWolves = 1)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -154,7 +154,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, hungryWolves = 3)
     val island1 = Island(3, fullWolves = 1)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -169,7 +169,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Arrange
     val island0 = Island(3, 1)
     val island1 = Island(3, hungryWolves = 1, fullWolves = 1)
-    val before = Level(Array(island0, island1), Seq.empty[Raft])
+    val before = Level(Array(island0, island1), Seq.empty)
 
     // Act
     val after = moveSimulator.move(before, 0, 1)
@@ -192,7 +192,7 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
 
     // Assert
     after.islands(0).sheep must be (0)
-    after.rafts(0).sheep must be (1)
+    after.rafts.head.sheep must be (1)
   }
 
   it should "allow sheep to overload a raft" in {

@@ -1,7 +1,7 @@
 package uk.org.shadowmagic.dividebysheepsolver
 
 class MoveSimulatorImpl extends MoveSimulator {
-  override def move(before: Level, from: Int, to: Int): Level = {
+  override def move(before: Level, from: Int, to: Int) = {
     val newIslands = before.islands.zipWithIndex.map { case (island, i) =>
       i match {
         case `from` => Island(island.spaces, fullWolves = island.fullWolves)
@@ -12,7 +12,7 @@ class MoveSimulatorImpl extends MoveSimulator {
     Level(newIslands, before.rafts)
   }
 
-  override def moveToRaft(before: Level, from: Int): Level = {
+  override def moveToRaft(before: Level, from: Int) = {
     val newIslands = before.islands.zipWithIndex.map { case (island, i) =>
       i match {
         case `from` => Island(island.spaces, fullWolves = island.fullWolves)
@@ -28,7 +28,7 @@ class MoveSimulatorImpl extends MoveSimulator {
     Level(newIslands, newRafts)
   }
 
-  private def mergeIslands(source: Island, target: Island): Island = {
+  private def mergeIslands(source: Island, target: Island) = {
     val availableSpace = target.spaces - target.fullWolves
 
     val sheepBeforeEating = Math.min(source.sheep + target.sheep, availableSpace)
