@@ -50,7 +50,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     val failed = levelEvaluator.hasFailed(level)
 
     // Assert
-    failed must be (LevelFailureReason.RaftOverloaded)
+    failed must be (Some(LevelFailureReason.RaftOverloaded))
   }
 
   it should "return failed if a raft is overloaded with wolves" in {
@@ -63,7 +63,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     val failed = levelEvaluator.hasFailed(level)
 
     // Assert
-    failed must be (LevelFailureReason.RaftOverloaded)
+    failed must be (Some(LevelFailureReason.RaftOverloaded))
   }
 
   it should "return failed if there are not enough sheep left" in {
@@ -76,7 +76,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     val failed = levelEvaluator.hasFailed(level)
 
     // Assert
-    failed must be (LevelFailureReason.NotEnoughSheep)
+    failed must be (Some(LevelFailureReason.NotEnoughSheep))
   }
 
   it should "return failed if there are not enough wolves left" in {
@@ -89,7 +89,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     val failed = levelEvaluator.hasFailed(level)
 
     // Assert
-    failed must be (LevelFailureReason.NotEnoughWolves)
+    failed must be (Some(LevelFailureReason.NotEnoughWolves))
   }
 
   it should "return failed if there are full wolves but not enough hungry wolves" in {
@@ -102,6 +102,6 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
     val failed = levelEvaluator.hasFailed(level)
 
     // Assert
-    failed must be (LevelFailureReason.NotEnoughWolves)
+    failed must be (Some(LevelFailureReason.NotEnoughWolves))
   }
 }
