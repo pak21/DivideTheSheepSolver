@@ -265,4 +265,17 @@ class MoveSimulatorImplSpec extends FlatSpec with MustMatchers {
     // Assert
     after.rafts(1).sheep must be (3)
   }
+
+  it should "remove empty rafts" in {
+    // Arrange
+    val island = Island(4, 4)
+    val raft = Raft(sheep = 4)
+    val before = Level(Array(island), Seq(raft))
+
+    // Act
+    val after = moveSimulator.moveToRaft(before, 0)
+
+    // Assert
+    after.rafts mustBe empty
+  }
 }

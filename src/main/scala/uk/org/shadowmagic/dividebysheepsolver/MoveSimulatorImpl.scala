@@ -23,7 +23,7 @@ class MoveSimulatorImpl extends MoveSimulator {
     val sourceIsland = before.islands(from)
     val targetRaft = before.rafts.head
     val newHeadRaft = Raft(targetRaft.sheep - sourceIsland.sheep, targetRaft.wolves - sourceIsland.hungryWolves)
-    val newRafts = newHeadRaft +: before.rafts.drop(1)
+    val newRafts = if (newHeadRaft.isEmpty) before.rafts.drop(1) else newHeadRaft +: before.rafts.drop(1)
 
     Level(newIslands, newRafts)
   }
