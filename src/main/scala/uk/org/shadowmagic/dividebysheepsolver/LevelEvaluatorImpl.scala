@@ -8,8 +8,8 @@ class LevelEvaluatorImpl extends LevelEvaluator {
   }
 
   private def isRaftOverloaded(level: Level) = {
-    val raft = level.rafts.head
-    if (raft.sheep < 0 || raft.wolves < 0) Some(LevelFailureReason.RaftOverloaded) else None
+    val raft = level.rafts.headOption
+    raft flatMap {r => if (r.sheep < 0 || r.wolves < 0) Some(LevelFailureReason.RaftOverloaded) else None}
   }
 
   private def doNotEnoughSheepRemain(level: Level) = {

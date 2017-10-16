@@ -7,7 +7,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
 
   "A level evaluator" should "return success if all rafts have been filled" in {
     // Arrange
-    val level = Level(Array(), Seq.empty)
+    val level = Level(Seq.empty, Seq.empty)
 
     // Act
     val succeeded = levelEvaluator.hasSucceeded(level)
@@ -18,7 +18,7 @@ class LevelEvaluatorImplSpec extends FlatSpec with MustMatchers {
 
   it should "not return success if any rafts remain" in {
     // Arrange
-    val level = Level(Array(), Seq(Raft()))
+    val level = Level(Seq.empty, Seq(Raft()))
 
     // Act
     val succeeded = levelEvaluator.hasSucceeded(level)
