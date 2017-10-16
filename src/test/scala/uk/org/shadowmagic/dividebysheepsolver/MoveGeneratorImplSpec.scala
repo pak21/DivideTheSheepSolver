@@ -51,10 +51,9 @@ class MoveGeneratorImplSpec extends FlatSpec with MustMatchers with MockFactory 
   it must "filter previously seen levels" in {
     // Arrange
     val previousLevel = Level(Seq(Island(1)), Seq.empty[Raft])
-    val newLevels = Seq(
-      previousLevel,
-      Level(Seq(Island(2)), Seq.empty[Raft])
-    )
+    val previousState = (previousLevel, Seq.empty[Move])
+    val newState = (Level(Seq(Island(2)), Seq.empty[Raft]), Seq.empty[Move])
+    val newLevels = Seq(previousState, newState)
     val seen = Set(previousLevel)
 
     (levelEvaluator.hasFailed _).expects(*).returning(None).once
@@ -68,7 +67,7 @@ class MoveGeneratorImplSpec extends FlatSpec with MustMatchers with MockFactory 
 
   it must "filter failed levels" in {
     // Arrange
-    val newLevels = Seq(Level(Seq.empty[Island], Seq.empty[Raft]))
+    val newLevels = Seq((Level(Seq.empty[Island], Seq.empty[Raft]), Seq.empty[Move]))
     val seen = Set.empty[Level]
 
     (levelEvaluator.hasFailed _).expects(*).returning(Some(LevelFailureReason.NotEnoughSheep)).once
@@ -78,5 +77,26 @@ class MoveGeneratorImplSpec extends FlatSpec with MustMatchers with MockFactory 
 
     // Assert
     viable mustBe empty
+  }
+
+  it must "remove duplicate levels with different moves" in {
+    // Arrange
+    val newLevel = Level(Seq.empty[Island], Seq.empty[Raft])
+    val move1 = IslandToIslandMove(0, 1, moveSimulator)
+    val move2 = IslandToIslandMove(0, 2, moveSimulator)
+
+    val state1 = (newLevel, Seq(move1))
+    val state2 = (newLevel, Seq(move2))
+    val states = Seq(state1, state2)
+
+    val seen = Set.empty[Level]
+
+    (levelEvaluator.hasFailed _).expects(*).returning(None).anyNumberOfTimes
+
+    // Act
+    val viable = moveGenerator.filterMoves(states, seen)
+
+    // Assert
+    viable.length must be (1)
   }
 }
