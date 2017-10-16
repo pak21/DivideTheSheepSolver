@@ -9,8 +9,9 @@ class BreadthFirstSearcherImpl(evaluator: LevelEvaluator, generator: MoveGenerat
     while (!context.success && context.queue.nonEmpty) {
       val (before, newQueue) = context.queue.dequeue
 
-      val allNextMoves = generator.generateMoves(before)
-      val viable = generator.filterMoves(allNextMoves, context.seen)
+      val nextMoves = generator.generateMoves()
+      val nextLevels = nextMoves.map { _.apply(before) }
+      val viable = generator.filterMoves(nextLevels, context.seen)
       val success = viable.exists { evaluator.hasSucceeded }
 
       context = SearchContext(newQueue ++ Queue(viable: _*), context.seen ++ Set(viable: _*), success)

@@ -1,43 +1,43 @@
 package uk.org.shadowmagic.dividebysheepsolver
 
 class MoveGeneratorImpl(simulator: MoveSimulator, evaluator: LevelEvaluator) extends MoveGenerator {
-  override def generateMoves(level: Level) =
+  override def generateMoves() =
     Seq(
       // TODO - pass in a geometry to know which moves to generate
 
-      simulator.move(level, 0, 1),
-      simulator.move(level, 0, 3),
+      IslandToIslandMove(0, 1, simulator),
+      IslandToIslandMove(0, 3, simulator),
 
-      simulator.move(level, 1, 0),
-      simulator.move(level, 1, 2),
-      simulator.move(level, 1, 4),
-      simulator.moveToRaft(level, 1),
+      IslandToIslandMove(1, 0, simulator),
+      IslandToIslandMove(1, 2, simulator),
+      IslandToIslandMove(1, 4, simulator),
+      IslandToRaftMove(1, simulator),
 
-      simulator.move(level, 2, 1),
-      simulator.move(level, 2, 5),
+      IslandToIslandMove(2, 1, simulator),
+      IslandToIslandMove(2, 5, simulator),
 
-      simulator.move(level, 3, 0),
-      simulator.move(level, 3, 4),
-      simulator.move(level, 3, 6),
+      IslandToIslandMove(3, 0, simulator),
+      IslandToIslandMove(3, 4, simulator),
+      IslandToIslandMove(3, 6, simulator),
 
-      simulator.move(level, 4, 1),
-      simulator.move(level, 4, 3),
-      simulator.move(level, 4, 5),
-      simulator.move(level, 4, 7),
+      IslandToIslandMove(4, 1, simulator),
+      IslandToIslandMove(4, 3, simulator),
+      IslandToIslandMove(4, 5, simulator),
+      IslandToIslandMove(4, 7, simulator),
 
-      simulator.move(level, 5, 2),
-      simulator.move(level, 5, 4),
-      simulator.move(level, 5, 8),
+      IslandToIslandMove(5, 2, simulator),
+      IslandToIslandMove(5, 4, simulator),
+      IslandToIslandMove(5, 8, simulator),
 
-      simulator.move(level, 6, 3),
-      simulator.move(level, 6, 7),
+      IslandToIslandMove(6, 3, simulator),
+      IslandToIslandMove(6, 7, simulator),
 
-      simulator.move(level, 7, 4),
-      simulator.move(level, 7, 6),
-      simulator.move(level, 7, 8),
+      IslandToIslandMove(7, 4, simulator),
+      IslandToIslandMove(7, 6, simulator),
+      IslandToIslandMove(7, 8, simulator),
 
-      simulator.move(level, 8, 5),
-      simulator.move(level, 8, 7)
+      IslandToIslandMove(8, 5, simulator),
+      IslandToIslandMove(8, 7, simulator)
     )
 
   override def filterMoves(moves: Seq[Level], seen: Set[Level]) = {
