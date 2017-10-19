@@ -20,8 +20,10 @@ object DivideBySheepSolver {
 
     val simulator = new MoveSimulatorImpl
     val evaluator = new LevelEvaluatorImpl
-    val generator = new MoveGeneratorImpl(simulator, evaluator)
-    val searcher = new BreadthFirstSearcherImpl(evaluator, generator)
+    val filter = new StateFilterImpl(evaluator)
+    val generator = new MoveGeneratorImpl(simulator)
+
+    val searcher = new BreadthFirstSearcherImpl(evaluator, generator, filter)
 
     val context = searcher.search(level)
 

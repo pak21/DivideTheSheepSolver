@@ -2,7 +2,7 @@ package uk.org.shadowmagic.dividebysheepsolver
 
 import scala.collection.immutable.Queue
 
-class BreadthFirstSearcherImpl(evaluator: LevelEvaluator, generator: MoveGenerator) extends BreadthFirstSearcher {
+class BreadthFirstSearcherImpl(evaluator: LevelEvaluator, generator: MoveGenerator, filter: StateFilter) extends BreadthFirstSearcher {
   override def search(initialLevel: Level) = {
     val initialState = initialLevel -> Seq.empty[Move]
     val initialQueue = Queue(initialState)
@@ -14,7 +14,7 @@ class BreadthFirstSearcherImpl(evaluator: LevelEvaluator, generator: MoveGenerat
 
       val moves = generator.generateMoves()
       val newStates = moves.map { move => (move.apply(before._1), move +: before._2) }
-      val viableStates = generator.filterMoves(newStates, context.seen.keySet)
+      val viableStates = filter.filterStates(newStates, context.seen.keySet)
       val success = viableStates.exists { state => evaluator.hasSucceeded(state._1) }
 
       context = SearchContext(newQueue ++ Queue(viableStates.toSeq: _*), context.seen ++ viableStates, success)

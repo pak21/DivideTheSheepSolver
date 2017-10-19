@@ -1,6 +1,6 @@
 package uk.org.shadowmagic.dividebysheepsolver
 
-class MoveGeneratorImpl(simulator: MoveSimulator, evaluator: LevelEvaluator) extends MoveGenerator {
+class MoveGeneratorImpl(simulator: MoveSimulator) extends MoveGenerator {
   override def generateMoves() =
     Seq(
       // TODO - pass in a geometry to know which moves to generate
@@ -39,10 +39,4 @@ class MoveGeneratorImpl(simulator: MoveSimulator, evaluator: LevelEvaluator) ext
       IslandToIslandMove(8, 5, simulator),
       IslandToIslandMove(8, 7, simulator)
     )
-
-  override def filterMoves(states: Seq[(Level, Seq[Move])], seen: Set[Level]) = {
-    val unseen = states.filter { state => !seen.contains(state._1) }
-    val distinct = unseen.groupBy(_._1).map(_._2.head).toSeq
-    distinct.filter { state => evaluator.hasFailed(state._1).isEmpty }.toMap
-  }
 }
