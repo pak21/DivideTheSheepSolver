@@ -14,7 +14,7 @@ class BreadthFirstSearcherImplSpec extends FlatSpec with MustMatchers with MockF
     val level = Level(Seq.empty[Island], Seq.empty[Raft])
 
     (moveGenerator.generateMoves _).expects.returning(Seq.empty[Move]).once
-    (moveGenerator.filterMoves _).expects(Seq.empty[(Level, Seq[Move])], *).returning(Seq.empty[(Level, Seq[Move])]).once
+    (moveGenerator.filterMoves _).expects(Seq.empty[(Level, Seq[Move])], *).returning(Map.empty[Level, Seq[Move]]).once
 
     // Act
     val result = breadthFirstSearcher.search(level)
@@ -31,7 +31,7 @@ class BreadthFirstSearcherImplSpec extends FlatSpec with MustMatchers with MockF
 
     (moveGenerator.generateMoves _).expects.returning(Seq(move)).once
     (move.apply _).expects(initialState).returning(successState).once
-    (moveGenerator.filterMoves _).expects(*, *).returning(Seq((successState, Seq(move)))).once
+    (moveGenerator.filterMoves _).expects(*, *).returning(Map(successState -> Seq(move))).once
     (levelEvaluator.hasSucceeded _).expects(successState).returning(true).once
 
     // Act

@@ -40,9 +40,9 @@ class MoveGeneratorImpl(simulator: MoveSimulator, evaluator: LevelEvaluator) ext
       IslandToIslandMove(8, 7, simulator)
     )
 
-  override def filterMoves(moves: Seq[(Level, Seq[Move])], seen: Set[Level]) = {
-    val unseen = moves.filter { state => !seen.contains(state._1) }
+  override def filterMoves(states: Seq[(Level, Seq[Move])], seen: Set[Level]) = {
+    val unseen = states.filter { state => !seen.contains(state._1) }
     val distinct = unseen.groupBy(_._1).map(_._2.head).toSeq
-    distinct.filter { state => evaluator.hasFailed(state._1).isEmpty }
+    distinct.filter { state => evaluator.hasFailed(state._1).isEmpty }.toMap
   }
 }

@@ -62,7 +62,7 @@ class MoveGeneratorImplSpec extends FlatSpec with MustMatchers with MockFactory 
     val viable = moveGenerator.filterMoves(newLevels, seen)
 
     // Assert
-    viable.length must be (1)
+    viable.size must be (1)
   }
 
   it must "filter failed levels" in {
@@ -97,6 +97,6 @@ class MoveGeneratorImplSpec extends FlatSpec with MustMatchers with MockFactory 
     val viable = moveGenerator.filterMoves(states, seen)
 
     // Assert
-    viable.length must be (1)
+    viable.size must be (1)
   }
 }

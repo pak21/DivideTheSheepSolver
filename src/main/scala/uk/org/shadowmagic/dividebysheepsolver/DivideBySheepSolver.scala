@@ -3,20 +3,20 @@ package uk.org.shadowmagic.dividebysheepsolver
 object DivideBySheepSolver {
   def main(args: Array[String]) {
     val islands = Seq(
-      Island(3, 3),
-      Island(4),
+      Island(0),
       Island(3),
-
-      Island(3),
-      Island(4),
-      Island(3),
+      Island(0),
 
       Island(4),
-      Island(5),
-      Island(2, 2)
+      Island(4),
+      Island(4),
+
+      Island(4, 2),
+      Island(4, 3),
+      Island(3, 2)
     )
 
-    val level = Level(islands, Seq(Raft(2), Raft(3)))
+    val level = Level(islands, Seq(Raft(6)))
 
     val simulator = new MoveSimulatorImpl
     val evaluator = new LevelEvaluatorImpl
